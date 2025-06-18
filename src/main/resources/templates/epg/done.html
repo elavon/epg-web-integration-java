@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/merchant.css" th:href="@{/css/merchant.css}" />
+</head>
+<body>
+    <p>EPG Transaction Authorized = <span th:text="${authorized}"/></p>
+    <p>Held For review = <span th:text="${heldforreview}"/></p>
+    <div class="json">
+        <p th:text="${response}" />
+    </div>
+</body>
+</html>

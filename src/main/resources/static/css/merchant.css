@@ -1,0 +1,10 @@
+
+.formwrapper {
+  max-width: 30em;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.json {
+    white-space: pre;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/merchant.css" th:href="@{/css/merchant.css}" />
+
+    <meta name="_csrf" th:attr="content=${_csrf.token}" />
+    <meta name="_csrf_header"  th:attr="content=${_csrf.headerName}" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script th:src="${src}"></script>
+
+</head>
+<body class="bg-light">
+
+<div class="formwrapper">
+    <header>
+        <div class="py-5 text-center">
+            <h2>Example Merchant</h2>
+            <p class="lead">
+                Make a test payment with the Elavon Payment Gateway.
+            </p>
+        </div>
+    </header>
+
+    <form action="/" id="paymentForm" class="needs-validation" novalidate="true">
+        <div class="mb-2">
+            <label for="amount">Amount</label>
+            <input id="amount" name="amount" class="form-control" type="tel" min="1" placeholder="" required="true"/>
+            <div class="invalid-feedback">
+                Please enter a valid amount.
+            </div>
+        </div>
+
+        <div class="mb-2">
+            <label for="currency-code">Currency</label>
+            <select class="form-select d-block w-100" id="currency-code" name="currency-code">
+                <option>EUR</option>
+                <option>GBP</option>
+            </select>
+        </div>
+
+        <hr class="mb-4"/>
+        <button class="btn btn-primary" type="submit" id="purchasebtn"><span>Purchase</span></button>
+    </form>
+
+    <div id="paymentFormHolder" style="visibility: hidden;"></div>
+</div>
+
+<script>
+    // Get the form element
+    const form = document.getElementById('paymentForm');
+
+    // Add an event listener for the 'submit' event
+    form.addEventListener('submit', function(event)
+    {
+        event.preventDefault(); // Prevent the default form submission
+
+        if (form.checkValidity() === true) {
+            document.getElementById('purchasebtn').innerHTML = '<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...';
+            document.getElementById('purchasebtn').classList.add('disabled');
+
+            // Get values from the form
+            const amount = form.querySelector("#amount").value;
+            const currencyCode = form.querySelector("#currency-code").value;
+            const url = '/epg/lightbox/epg-lb-form-data';
+
+            const token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+            const header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
+            // Using the Fetch API with URL-encoded data
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    [header]: token,
+                },
+                body: `currency-code=${encodeURIComponent(currencyCode)}&amount=${encodeURIComponent(amount)}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayLightbox(data.sessionId);
+            })
+            .catch(error => {
+                alert("Error: " + error.message);
+            });
+        }
+    });
+</script>
+<script src="/javascript/DisplayLightbox.js" th:src="@{/javascript/DisplayLightbox.js}"></script>
+<script src="/javascript/bootstrap-form-validation.js" th:src="@{/javascript/bootstrap-form-validation.js}"></script>
+
+</body>
+</html>
