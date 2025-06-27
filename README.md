@@ -33,14 +33,14 @@ If you want to view transactions in our portal https://uat.converge.eu.elavonaws
 
 To get a test account contact product support
 - **EU:**
-    - **Email:** convergehelpdesk@elavon.com
+    - **Email:** epgsupporteurope@elavon.com
     - **Phone(s):**
         - **United Kingdom:** 0345 604 2329 (Monday to Friday, 9:00 to 17:00 GMT)
         - **Ireland:** 0818 924 177 (Monday to Friday, 9:00 to 17:00 GMT)
         - **Poland:** (+48) 22 3065894 (Monday to Friday, 10:00-18:00 CET/CEST)
 
 - **NA:**
-    - **Email:** custsvc@elavon.com
+    - **Email:** techsupp@elavon.com
     - **Phone (USA):** +1 800 377 3962 (24/7)
 
 If you have received test credentials you can replace our default credentials in application.yml.  Update merchantAlias, secretKey, and publicApiKey.
@@ -80,9 +80,6 @@ For the HPP Redirect integration you must create an order and a paymentsession. 
 Our API reference documentation can be found at
 * [API Reference](https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference)
 
-
-## Current Maintainer
-- Frank Whitlock: franklyn.whitlock@elavon.com
 
 
 ## License
